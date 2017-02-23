@@ -19,12 +19,12 @@ int onFlag = 0;
 int offFlag = 0;
 
 int sensorPin = A5;    // select the input pin for the potentiometer
-int battPin = A4;
+int battPin = A7;
 int ledPin = 13;      // select the pin for the LED
 
-double analogVref = 3.272;
+double analogVref = 3.3;
 double chargeCutOff = 4.2;
-double dischargeCutOff = 2.75;
+double dischargeCutOff = 3.2;
 double sensorValue = 0;  // variable to store the value coming from the sensor
 double battVoltage = 0;
 double battLevel = 0;
@@ -79,13 +79,13 @@ void loop() {
   // read the value from the sensor:
   sensorValue = analogRead(sensorPin);
   battVoltage = analogRead(battPin);
-  battVoltage = (battVoltage / 1023) * analogVref;
-  battVoltage = ((battVoltage - 0.012) * 2.0);
+  battVoltage = (battVoltage / 1024) * analogVref;
+  battVoltage *= 2.0;
   battLevel = round((battVoltage - dischargeCutOff) * (100 / (chargeCutOff - dischargeCutOff)));
   if (battLevel > 100) {
     battLevel = 100;
   }
-  Vout = (sensorValue / 1023.0) * analogVref;
+  Vout = (sensorValue / 1024.0) * analogVref;
   windSpeed = ((Vout - 0.4) / 1.6) * 32.4;
   Serial.println(String(battLevel) + ", " + String(battVoltage) + ", " + String(sensorValue) + ", " + String(Vout) + ", " + String(windSpeed));
 
