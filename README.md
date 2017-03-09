@@ -1,1 +1,1 @@
-# anemometer-arduino
+# meteor-name-arduino
